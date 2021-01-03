@@ -1,6 +1,7 @@
 var netter_data = `{
 	    "plates": [
             {"number": 500,
+            "name": "Knee: Cruciate and Collateral Ligaments",
             "img": "Images/Plate500.png",
             "img_num":"Images/Plate500Num.png",
 	        "structures":[
@@ -31,11 +32,11 @@ var netter_data = `{
                 {"number": 25, "name": "Fibular collateral ligament"},
                 {"number": 26, "name": "Lateral meniscus"},
                 {"number": 27, "name": "Head of fibula"}
-]
-            },
-{"number": 501,
-"img": "Images/Plate501.png",
-"img_num": "Images/Plate501Num.png",
+            ]},
+            {"number": 501,
+            "name": "Knee: Anteroposterior Radiograph and Posterior View",
+            "img": "Images/Plate501.png",
+            "img_num": "Images/Plate501Num.png",
 	        "structures": [
                 {"number": 1, "name": "Medial femoral condyle"},
                 {"number": 2, "name": "Intercondylar eminence"},
@@ -68,16 +69,64 @@ var netter_data = `{
                 {"number": 29, "name": "Common fibular nerve"},
                 {"number": 30, "name": "Popliteus muscle"},
                 {"number": 31, "name": "Fibula"}
-                ]
-            }]
-    }`;
+            ]},
+            {"number": 502,
+            "name": "Knee: Posterior and Sagittal Views",
+            "img": "Images/Plate502.png",
+            "img_num": "Images/Plate502Num.png",
+	        "structures": [
+                {"number": 1, "name": "Adductor magnus tendon"},
+                {"number": 2, "name": "Medial head of gastrocnemius muscle"},
+                {"number": 3, "name": "Subtendinous bursa"},
+                {"number": 4, "name": "Tibial collateral ligament"},
+                {"number": 5, "name": "Semimembranosus tendon"},
+                {"number": 6, "name": "Oblique popliteal ligament (tendinous expansion of semimembranosus muscle)"},
+                {"number": 7, "name": "Semimembranosus bursa deep to tendon"},
+                {"number": 8, "name": "Popliteus muscle"},
+                {"number": 9, "name": "Femur (popliteal surface)"},
+                {"number": 10, "name": "Attachement of joint capsule"},
+                {"number": 11, "name": "Plantaris muscle"},
+                {"number": 12, "name": "Lateral head of gastrocnemius muscle"},
+                {"number": 13, "name": "Subtendinous bursa"},
+                {"number": 14, "name": "Fibular collatoral ligament"},
+                {"number": 15, "name": "Subtendinous bursa"},
+                {"number": 16, "name": "Biceps femoris tendon"},
+                {"number": 17, "name": "Subtendinous bursa"},
+                {"number": 18, "name": "Arcuate popliteal ligament (edge of capsule that arches over popliteus muscle)"},
+                {"number": 19, "name": "Head of fibula"},
+                {"number": 20, "name": "Posterior ligament of fibular head"},
+                {"number": 21, "name": "Attachment of joint capsule"},
+                {"number": 22, "name": "Interosseous membrane"},
+                {"number": 23, "name": "Tibia"},
+                {"number": 24, "name": "Lateral subtendious bursa of gastrocnemius muscle"},
+                {"number": 25, "name": "Synovial membrane"},
+                {"number": 26, "name": "Articular cartilages"},
+                {"number": 27, "name": "Tibia"},
+                {"number": 28, "name": "Femur"},
+                {"number": 29, "name": "Articularis genu muscle"},
+                {"number": 30, "name": "Quadriceps femoris tendon"},
+                {"number": 31, "name": "Suprapatellar fat body"},
+                {"number": 32, "name": "Suprapatellar (synovial) bursa"},
+                {"number": 33, "name": "Patella"},
+                {"number": 34, "name": "Subcutaneous prepatellar bursa"},
+                {"number": 35, "name": "Articular cavity"},
+                {"number": 36, "name": "Synovial membrane"},
+                {"number": 37, "name": "Patellar ligament"},
+                {"number": 38, "name": "Infrapatellar fat pad"},
+                {"number": 39, "name": "Subcutaneous infrapatellar bursa"},
+                {"number": 40, "name": "Deep (subtendinous) infrapatellar bursa"},
+                {"number": 41, "name": "Lateral muniscus"},
+                {"number": 42, "name": "Tibial tuberosity"}
+                ]}
+
+    ]}`;
 
 
 var myObj = JSON.parse(netter_data);
 
 for (var i = 0; i < myObj.plates.length; i++) {
     var temp_name = [];
-    for( ii = 0; ii < myObj.plates[i].structures.length; ii++) {
+    for(var ii = 0; ii < myObj.plates[i].structures.length; ii++) {
         temp_name[ii] = myObj.plates[i].structures[ii].name;
     }
     temp_name.sort();
