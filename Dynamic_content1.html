@@ -140,6 +140,14 @@
             }
         };
 
+            //Button for revealing answers
+        var btn_revealAll = document.createElement("BUTTON");
+        btn_revealAll.innerHTML = "Reveal all";
+        document.getElementById("dyn_cont").appendChild(btn_revealAll);
+        btn_revealAll.onclick = myfunction(){
+            // do nothing yet
+        };
+
         //Place all elements
         for (var i = 0; i < para2.length; i++) {
             document.getElementById("dyn_cont").appendChild(para2[i]);
