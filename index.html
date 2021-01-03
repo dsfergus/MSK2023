@@ -1,20 +1,171 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-<body>
+<script type="text/javascript" src="data2.js"></script>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing:border-box;
+        }
+        .column{
+            float:left;
+            width:50%;
+            padding:10px;
+        }
+        .left {
+            float: left;
+            width: 75%;
+            padding: 10px;
+        }
+        .right {
+            float: left;
+            width: 25%;
+            padding: 10px;
+            max-height: 800px;
+            overflow: scroll;
+        }
 
-    <h1 id="demo" onmouseover="mouseOver()" onmouseout="mouseOut()">Under Construction</h1>
-    <a href="/Dynamic_Content1.html">Go to Dynamic Content</a>
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body onload="loadPlateContent(0)">
+
+    <p id="select_plate_text">Select Plate</p>
+    <p id="select_plate_text2"></p>
+
+    <div class="row">
+    <div class="left">
+        <img id="dyn_cont_img" src="Images/unknown.jpg" style="width:100%">
+    </div>
+    <div class="right" style="background-color:#bbb">
+        <p id="dyn_cont"></p>
+    </div>
+    </div>
+
+
+
 
     <script>
-function mouseOver() {
-  document.getElementById("demo").style.color = "red";
-}
+        var reveal_image = 0;
 
-function mouseOut() {
-  document.getElementById("demo").style.color = "black";
-}
+        //Plate select creation
+        var sel_plate = document.createElement("SELECT");
+        sel_plate.id = "sel_plate : ";
+        for (i = 0; i < myObj.plates.length; i++) {
+            var option = document.createElement("option");
+            option.text = myObj.plates[i].number;
+            sel_plate.add(option);
+        }
+        document.getElementById("select_plate_text").appendChild(sel_plate);
+        sel_plate.onchange = function () {
+            var sel_text = document.getElementById('select_plate_text2');
+            sel_text.innerHTML = "Plate " + this.value + " Selected\t";
+
+            // Reset image
+            reveal_image = 0;
+            document.getElementById("dyn_cont_img").src = myObj.plates[this.selectedIndex.toString()].img_num;
+
+            addRevealImageBtn();
+            loadPlateContent(this.selectedIndex.toString());
+        }
+
+
+        // Reveal Image Button -> switches between num and names
+        function addRevealImageBtn() {
+            var btn_reveal = document.createElement("BUTTON");
+            btn_reveal.innerHTML = "Reveal names on image";
+            document.getElementById("select_plate_text2").appendChild(btn_reveal);
+            btn_reveal.onclick = function () {
+                if (reveal_image == 0) reveal_image = 1;
+                else reveal_image = 0;
+
+                if (reveal_image == 0) {
+                    sel_plate = document.getElementById("sel_plate");
+                    document.getElementById("dyn_cont_img").src = myObj.plates[sel_plate.selectedIndex.toString()].img_num;
+                }
+                else {
+                    document.getElementById("dyn_cont_img").src = myObj.plates[sel_plate.selectedIndex.toString()].img;
+                }
+            };
+        }
+
+
+
+        function loadPlateContent(pi) {
+        document.getElementById("dyn_cont").innerHTML = "Plate " + myObj.plates[pi].number + "\t";
+        document.getElementById("dyn_cont_img").src = myObj.plates[pi].img_num;
+        var para2 = [];
+        var sel2 = [];
+        var img2 = [];
+        for (var i = 0; i < myObj.plates[pi].structures.length; i++) {
+            para2[i] = document.createElement('p');
+            para2[i].id = "struct_num" + i.toString();
+            para2[i].index = i.toString();
+            para2[i].innerHTML = myObj.plates[pi].structures[i].number + "\t";
+
+            sel2[i] = document.createElement("SELECT");
+            sel2[i].id = "struct_name" + i.toString();
+            sel2[i].index = i.toString();
+            for (var ii = 0; ii < myObj.plates[pi].structures_sort_name.length; ii++) {
+                var option = document.createElement("option");
+                option.text = myObj.plates[pi].structures_sort_name[ii];
+                sel2[i].add(option);
+                sel2[i].style = "max-width:80%";
+            }
+            
+
+            img2[i] = document.createElement("img");
+            img2[i].id = "struct_img" + i.toString();
+            img2[i].index = i.toString();
+            img2[i].src = "Images/unknown.jpg";
+            img2[i].height = "20";
+            img2[i].onclick = function() {
+                checkStructure(this);
+            }
+
+        }
+
+        //Button for checking answers
+        var btn_checkAll = document.createElement("BUTTON");
+        btn_checkAll.innerHTML = "Check all";
+        document.getElementById("dyn_cont").appendChild(btn_checkAll);
+        btn_checkAll.onclick = function () {
+            for (var i = 0; i < myObj.plates[pi].structures.length; i++) {
+                element = document.getElementById("struct_img" + i.toString());
+                checkStructure(element);
+            }
+        };
+
+            //Button for revealing answers
+        var btn_revealAll = document.createElement("BUTTON");
+        btn_revealAll.innerHTML = "Reveal all";
+        document.getElementById("dyn_cont").appendChild(btn_revealAll);
+        btn_revealAll.onclick = myfunction(){
+            // do nothing yet
+        };
+
+        //Place all elements
+        for (var i = 0; i < para2.length; i++) {
+            document.getElementById("dyn_cont").appendChild(para2[i]);
+            para2[i].appendChild(sel2[i]);
+            para2[i].appendChild(img2[i]);
+        }
+
+        }
+
+        function checkStructure(element) {
+            element.src = "Images/incorrect.jpg";
+            el_i = element.index;
+            value = document.getElementById("struct_name" + el_i.toString()).value;
+            var pi = document.getElementById("sel_plate").selectedIndex;
+            if (value.localeCompare(myObj.plates[pi].structures[el_i].name) == 0) element.src = "Images/correct.jpg";
+        }
+
+
     </script>
-
-
 </body>
 </html>
