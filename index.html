@@ -16,13 +16,14 @@
             float: left;
             width: 75%;
             padding: 10px;
-            max-height: 800px;
+            max-height: 700px;
+            overflow: scroll;
         }
         .right {
             float: left;
             width: 25%;
             padding: 10px;
-            max-height: 800px;
+            max-height: 700px;
             overflow: scroll;
         }
 
@@ -33,14 +34,18 @@
         }
     </style>
 </head>
-<body onload="loadDynamicContent()">
+<body onload="onPageLoad()">
+    <div id="header" style="background-color:darkgreen">
+        <p style="text-align:center;color:white;font-size:xx-large;font-weight:bold"><br />MSK2023 - Study Anatomy<br /><br /></p>
 
-    <p id="select_plate_text">Select Plate </p>
+    </div>
+    <p id="welcome"></p>
+    <p id="select_plate_text"></p>
     <p id="select_plate_text2"></p>
 
     <div class="row">
     <div class="left">
-        <img id="dyn_cont_img" src="Images/unknown.jpg" style="width:100%">
+        <img id="dyn_cont_img" src="Images/unknown.jpg" style="width:10%">
     </div>
     <div class="right" style="background-color:#bbb">
         <p id="dyn_cont"></p>
@@ -52,6 +57,25 @@
 
     <script>
         var reveal_image = 0;
+        function onPageLoad() {
+            document.getElementById("welcome").innerHTML = "Are you an MD2023 studying for MSK? ";
+            var btn_yes = document.createElement("BUTTON");
+            btn_yes.id = "btn_yes";
+            btn_yes.innerHTML = "Yes";
+            document.getElementById("welcome").appendChild(btn_yes);
+            btn_yes.onclick = function () {
+                document.getElementById("welcome").innerHTML = "Use dropdown menu below to select different plates and test your knowledge."
+                loadDynamicContent();
+                document.getElementById("btn_yes").remove;
+            };
+            var btn_no = document.createElement("BUTTON");
+            btn_yes.id = "btn_no";
+            btn_no.innerHTML = "No";
+            document.getElementById("welcome").appendChild(btn_no);
+            btn_no.onclick = function () {
+                window.location = "http:\\www.google.com"
+            };
+        }
 
         function loadDynamicContent() {
 
@@ -63,6 +87,7 @@
                 option.text = myObj.plates[i].number + " - " + myObj.plates[i].name;
                 sel_plate.add(option);
             }
+            document.getElementById("select_plate_text").innerHTML = "Select Plate  ";
             document.getElementById("select_plate_text").appendChild(sel_plate);
             sel_plate.onchange = function () {
                 var sel_text = document.getElementById('select_plate_text2');
@@ -71,7 +96,7 @@
                 // Reset image
                 reveal_image = 0;
                 document.getElementById("dyn_cont_img").src = myObj.plates[this.selectedIndex.toString()].img_num;
-
+                document.getElementById("dyn_cont_img").style = "width:100%";
                 addRevealImageBtn();
                 loadPlateContent(this.selectedIndex.toString());
             }
@@ -154,9 +179,17 @@
         var btn_revealAll = document.createElement("BUTTON");
         btn_revealAll.innerHTML = "Reveal all";
         document.getElementById("dyn_cont").appendChild(btn_revealAll);
+        btn_revealAll.pressed = 0;
         btn_revealAll.onclick = function () {
+            if (this.pressed == 0) this.pressed = 1;
+            else this.pressed = 0;
             for (var i = 0; i < para2.length; i++) {
-                reveal2[i].onclick();
+                if (this.pressed == 1) {
+                    reveal2[i].onclick();
+                }
+                else {
+                    reveal2[i].innerHTML = "Answer";
+                }
             }
         };
 
@@ -176,6 +209,7 @@
             var pi = document.getElementById("sel_plate").selectedIndex;
             if (value.localeCompare(myObj.plates[pi].structures[el_i].name) == 0) element.src = "Images/correct.jpg";
         }
+
 
 
     </script>
