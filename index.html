@@ -156,9 +156,15 @@
             reveal2[i] = document.createElement("BUTTON");
             reveal2[i].id = "struct_reveal" + i.toString();
             reveal2[i].index = i;
-            reveal2[i].innerHTML = "Answer"
+            reveal2[i].innerHTML = "Answer";
+            reveal2[i].pressed = 0;
             reveal2[i].onclick = function () {
-                this.innerHTML = myObj.plates[pi].structures[this.index].name;
+                if (this.pressed == 0) this.pressed = 1;
+                else this.pressed = 0;
+                if (this.pressed == 1)
+                    this.innerHTML = myObj.plates[pi].structures[this.index].name;
+                else
+                    this.innerHTML = "Answer";
             }
 
 
@@ -185,10 +191,12 @@
             else this.pressed = 0;
             for (var i = 0; i < para2.length; i++) {
                 if (this.pressed == 1) {
+                    reveal2[i].pressed = 0;
                     reveal2[i].onclick();
                 }
                 else {
-                    reveal2[i].innerHTML = "Answer";
+                    reveal2[i].pressed = 1;
+                    reveal2[i].onclick();
                 }
             }
         };
